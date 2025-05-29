@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import useWalletConnection from "../hooks/useWalletConnection.js";
 import noise from "../assets/background/noise.png";
 import bgBase64 from "../assets/background/bgImage.js";
@@ -71,9 +72,12 @@ export default function Home() {
             )}
             {getWalletButtonText()}
           </button>
-          <button className="px-7 py-2 text-md text-white font-medium bg-[#202715] hover:bg-[#14180e] transition-colors cursor-pointer">
+          <Link
+            to="/Producers"
+            className="px-7 py-2 text-md text-white font-medium bg-[#202715] hover:bg-[#14180e] transition-colors cursor-pointer"
+          >
             Acceso Productores
-          </button>
+          </Link>
         </div>
       </header>
 
