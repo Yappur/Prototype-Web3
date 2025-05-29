@@ -1,9 +1,11 @@
-import React from "react";
-import Home from "./pages/homePage";
+import RoutesViews from "./routes/RoutesViews";
+import { BrowserRouter as Router } from "react-router-dom";
 function App() {
   return (
     <>
-      <Home />
+      <Router>
+        <RoutesViews />
+      </Router>
     </>
   );
 }
