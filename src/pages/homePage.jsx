@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useWalletConnection from "../hooks/useWalletConnection.js";
+import QRScannerModal from "../components/Modals/QRScannerModal.jsx";
 import noise from "../assets/background/noise.png";
 import bgBase64 from "../assets/background/bgImage.js";
 
@@ -15,6 +16,9 @@ export default function Home() {
   } = useWalletConnection();
 
   const [showError, setShowError] = useState(true);
+  const [showQRScanner, setShowQRScanner] = useState(false);
+  const [scannedData, setScannedData] = useState(null);
+  const [scanSuccess, setScanSuccess] = useState(false);
 
   const handleWalletClick = async () => {
     if (isConnected) {
@@ -28,6 +32,26 @@ export default function Home() {
     if (isLoading) return "Conectando...";
     if (isConnected) return account?.meta?.name || "Wallet Conectada";
     return "Conectar Wallet";
+  };
+
+  const handleQRScan = (data) => {
+    console.log("Código QR escaneado:", data);
+    setScannedData(data);
+    setScanSuccess(true);
+
+    // Opcional: Aquí puedes agregar lógica para procesar el código QR
+    // Por ejemplo: buscar información del producto, redirigir, etc.
+
+    // Ocultar mensaje de éxito después de 3 segundos
+    setTimeout(() => setScanSuccess(false), 3000);
+  };
+
+  const openQRScanner = () => {
+    setShowQRScanner(true);
+  };
+
+  const closeQRScanner = () => {
+    setShowQRScanner(false);
   };
 
   return (
@@ -58,6 +82,12 @@ export default function Home() {
           </div>
         </div>
         <div className="flex items-center gap-7">
+          <button
+            onClick={openQRScanner}
+            className="px-7 py-2 text-md font-medium border border-black transition-colors cursor-pointer relative hover:bg-black hover:text-white"
+          >
+            Escanear producto
+          </button>
           <button
             onClick={handleWalletClick}
             disabled={isLoading}
@@ -180,6 +210,12 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      <QRScannerModal
+        isOpen={showQRScanner}
+        onClose={closeQRScanner}
+        onScan={handleQRScan}
+      />
     </div>
   );
 }
