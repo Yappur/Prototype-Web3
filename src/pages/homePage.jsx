@@ -70,9 +70,8 @@ export default function Home() {
       <img
         src={raizBg || "/placeholder.svg"}
         alt="Raiz background"
-        className="absolute bottom-0 right-0 z-0 pointer-events-none"
+        className="fixed bottom-0 right-0 w-auto h-auto max-w-full max-h-full object-contain z-0 pointer-events-none hidden lg:block"
       />
-
       <LandingNavbar
         account={account}
         isConnected={isConnected}
