@@ -146,9 +146,9 @@ export function AnotherHomePage() {
                 verificados.
               </p>
               <div className="flex gap-4">
-                <button className="px-6 py-3 bg-[#202715] text-white rounded hover:bg-[#14180e] transition-colors">
+                <Link to={"/products"} className="px-6 py-3 bg-[#202715] text-white rounded hover:bg-[#14180e] transition-colors cursor-pointer">
                   Explorar Productos
-                </button>
+                </Link>
                 <button className="px-6 py-3 border border-gray-400 text-gray-700 rounded hover:bg-gray-50 transition-colors">
                   Mi Perfil
                 </button>
