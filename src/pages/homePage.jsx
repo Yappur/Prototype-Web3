@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import useWalletConnection from "../hooks/useWalletConnection.js";
 import QRScannerModal from "../components/Modals/QRScannerModal.jsx";
 import noise from "../assets/background/noise.png";
 import raizBg from "../assets/background/raiz-bg.svg";
-import logo from "../assets/RaizLogo.svg";
 import bgBase64 from "../assets/background/bgImage.js";
+import LandingNavbar from "../components/Navigate/LandingNavbar.jsx";
+import arrowLeft from "../assets/icons/arrowLeft.svg";
 
 export default function Home() {
   const {
@@ -28,12 +28,6 @@ export default function Home() {
     } else {
       await connectWallet();
     }
-  };
-
-  const getWalletButtonText = () => {
-    if (isLoading) return "Conectando...";
-    if (isConnected) return account?.meta?.name || "Wallet Conectada";
-    return "Conectar Wallet";
   };
 
   const handleQRScan = (data) => {
@@ -73,60 +67,22 @@ export default function Home() {
         backgroundImage: `url("${noise}"), url("${bgBase64}")`,
       }}
     >
-      {/* Error Toast */}
-      {error && showError && (
-        <div className="fixed top-4 right-4 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg flex items-center gap-2">
-          <span className="text-sm">{error}</span>
-          <button
-            onClick={() => setShowError(false)}
-            className="text-red-500 hover:text-red-700 font-bold text-lg leading-none"
-          >
-            ×
-          </button>
-        </div>
-      )}
-
       <img
         src={raizBg || "/placeholder.svg"}
         alt="Raiz background"
         className="absolute bottom-0 right-0 z-0 pointer-events-none"
       />
 
-      <header className="relative z-10 flex items-center justify-between mx-8 px-6 py-6">
-        <div className="flex items-center">
-          <div className="flex items-center gap-2">
-            <img src={logo} alt="logo" />
-          </div>
-        </div>
-        <div className="flex items-center gap-7">
-          <button
-            onClick={openQRScanner}
-            className="px-7 py-2 text-md font-medium border border-black transition-colors cursor-pointer relative hover:bg-black hover:text-white"
-          >
-            Escanear producto
-          </button>
-          <button
-            onClick={handleWalletClick}
-            disabled={isLoading}
-            className={`px-7 py-2 text-md font-medium border border-black transition-colors cursor-pointer relative ${
-              isConnected
-                ? "bg-green-100 text-green-800 border-green-600 hover:bg-green-200"
-                : "text-black bg-transparent hover:bg-black hover:text-white"
-            } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-          >
-            {isConnected && (
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full"></div>
-            )}
-            {getWalletButtonText()}
-          </button>
-          <Link
-            to="/Producers"
-            className="px-7 py-2 text-md text-white font-medium bg-[#202715] hover:bg-[#14180e] transition-colors cursor-pointer"
-          >
-            Acceso Productores
-          </Link>
-        </div>
-      </header>
+      <LandingNavbar
+        account={account}
+        isConnected={isConnected}
+        isLoading={isLoading}
+        error={error}
+        showError={showError}
+        onWalletClick={handleWalletClick}
+        onQRScannerOpen={openQRScanner}
+        onCloseError={() => setShowError(false)}
+      />
 
       <main className="relative z-10 px-8 py-16 mx-12">
         {/* Información de cuenta conectada */}
@@ -159,15 +115,7 @@ export default function Home() {
 
             <div className="lg:pl-40">
               <div className="flex items-center gap-4 mb-7">
-                <svg
-                  className="w-6 h-6"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
+                <img src={arrowLeft} alt="flecha" />
                 <h2 className="text-4xl font-medium text-black">
                   Escanea tu producto
                 </h2>
