@@ -39,11 +39,21 @@ export default function Home() {
     setScannedData(data);
     setScanSuccess(true);
 
-    // Opcional: Aquí puedes agregar lógica para procesar el código QR
-    // Por ejemplo: buscar información del producto, redirigir, etc.
+    processQRData(data);
+  };
 
-    // Ocultar mensaje de éxito después de 3 segundos
-    setTimeout(() => setScanSuccess(false), 3000);
+  const processQRData = (qrData) => {
+    try {
+      if (qrData.startsWith("http://") || qrData.startsWith("https://")) {
+        // Redireccionar a URL externa
+        window.location.href = qrData;
+        return;
+      }
+    } catch (error) {
+      console.error("Error procesando QR:", error);
+      setScanSuccess(true);
+      setTimeout(() => setScanSuccess(false), 5000);
+    }
   };
 
   const openQRScanner = () => {
