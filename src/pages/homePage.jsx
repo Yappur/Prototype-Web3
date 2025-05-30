@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import useWalletConnection from "../hooks/useWalletConnection.js";
 import QRScannerModal from "../components/Modals/QRScannerModal.jsx";
 import noise from "../assets/background/noise.png";
+import raizBg from "../assets/background/raiz-bg.svg";
+import logo from "../assets/RaizLogo.svg";
 import bgBase64 from "../assets/background/bgImage.js";
 
 export default function Home() {
@@ -84,11 +86,16 @@ export default function Home() {
         </div>
       )}
 
+      <img
+        src={raizBg || "/placeholder.svg"}
+        alt="Raiz background"
+        className="absolute bottom-0 right-0 z-0 pointer-events-none"
+      />
+
       <header className="relative z-10 flex items-center justify-between mx-8 px-6 py-6">
         <div className="flex items-center">
           <div className="flex items-center gap-2">
-            <div className="h-6 w-6 rounded-full bg-black"></div>
-            <span className="font-medium text-gray-800">RAIZ</span>
+            <img src={logo} alt="logo" />
           </div>
         </div>
         <div className="flex items-center gap-7">
@@ -197,28 +204,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        {isConnected && (
-          <div className="pt-16 border-t border-gray-300 mt-16">
-            <div className="bg-white/60 backdrop-blur-sm rounded-lg p-8">
-              <h3 className="text-2xl font-medium text-black mb-4">
-                🌱 Bienvenido a RAIZ
-              </h3>
-              <p className="text-lg text-gray-800 mb-4">
-                Tu wallet está conectada y lista para interactuar con productos
-                verificados.
-              </p>
-              <div className="flex gap-4">
-                <button className="px-6 py-3 bg-[#202715] text-white rounded hover:bg-[#14180e] transition-colors">
-                  Explorar Productos
-                </button>
-                <button className="px-6 py-3 border border-gray-400 text-gray-700 rounded hover:bg-gray-50 transition-colors">
-                  Mi Perfil
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </main>
 
       <QRScannerModal
