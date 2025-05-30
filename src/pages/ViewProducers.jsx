@@ -1,4 +1,4 @@
-import FormCertificate from "../components/formCertificate";
+import FormCertificate from "../components/FormCertificate";
 
 const ViewProducers = () => {
   return (

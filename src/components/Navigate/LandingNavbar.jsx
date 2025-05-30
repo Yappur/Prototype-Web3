@@ -153,7 +153,7 @@ const LandingNavbar = ({
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
           <div
-            className="md:hidden fixed inset-0 bg-black/20 bg-opacity-25 z-[-1]"
+            className="md:hidden fixed inset-0 z-[-1]"
             onClick={closeMenu}
           ></div>
         )}
