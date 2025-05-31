@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { BrowserMultiFormatReader } from "@zxing/library";
+import flashlight from "../../assets/icons/flashlight.svg";
 
 const QRScannerModal = ({ isOpen, onClose, onScan }) => {
   const [error, setError] = useState(null);
@@ -189,27 +190,23 @@ const QRScannerModal = ({ isOpen, onClose, onScan }) => {
   if (isMobile) {
     return (
       <div className="fixed inset-0 z-50 bg-black">
-        {/* Header con botones */}
-        <div className="absolute top-0 left-0 right-0 z-10 bg-black/50 p-4 flex justify-between items-center">
+        {/* Header con botón de cerrar */}
+        <div className="absolute top-0 left-0 right-0 z-10 p-4 flex justify-end items-center">
           <button
             onClick={handleClose}
             className="text-white text-2xl font-bold bg-black/30 rounded-full w-10 h-10 flex items-center justify-center"
           >
-            ×
+            X
           </button>
+        </div>
 
-          <h2 className="text-white text-lg font-semibold">Escanear QR</h2>
-
-          {flashSupported && (
-            <button
-              onClick={toggleFlash}
-              className={`text-white text-xl bg-black/30 rounded-full w-10 h-10 flex items-center justify-center ${
-                flashOn ? "bg-yellow-500/50" : "bg-black/30"
-              }`}
-            >
-              {flashOn ? "🔦" : "💡"}
-            </button>
-          )}
+        {/* Cartel centrado */}
+        <div className="absolute top-16 left-0 right-0 z-10 flex justify-center">
+          <div className="bg-black/60 text-white px-6 py-3 rounded-lg">
+            <h1 className="text-lg font-medium text-center">
+              Escanea para ver la raíz
+            </h1>
+          </div>
         </div>
 
         {/* Video container */}
@@ -266,20 +263,37 @@ const QRScannerModal = ({ isOpen, onClose, onScan }) => {
           )}
         </div>
 
-        {/* Controles inferiores */}
-        {isScanning && !error && (
-          <div className="absolute bottom-0 left-0 right-0 p-6 bg-black">
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={toggleScanning}
-                className="px-8 py-3 bg-red-500 text-white rounded-lg text-lg font-medium"
+        {/* Controles inferiores - Flash centrado */}
+        {isScanning && !error && flashSupported && (
+          <div className="absolute bottom-8 left-0 right-0 flex justify-center">
+            <button
+              onClick={toggleFlash}
+              className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
+                flashOn
+                  ? "bg-yellow-500/80 shadow-lg shadow-yellow-500/50"
+                  : "bg-white/20 backdrop-blur-sm"
+              }`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                Detener
-              </button>
-            </div>
-            <p className="text-white text-center mt-3 text-sm">
-              Apunta la cámara hacia el código QR
-            </p>
+                {flashOn ? (
+                  // Icono de flash encendido
+                  <path d="m13 2-3 6h4l-3 6 3-6h-4l3-6z" fill="white" />
+                ) : (
+                  // Icono de flash apagado
+                  <path d="M13 2v6h4l-3 6-3-6h4V2z" />
+                )}
+              </svg>
+            </button>
           </div>
         )}
       </div>
@@ -296,7 +310,7 @@ const QRScannerModal = ({ isOpen, onClose, onScan }) => {
             onClick={handleClose}
             className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl font-bold z-10"
           >
-            ×
+            X
           </button>
 
           <div className="text-center mb-4">
@@ -380,13 +394,33 @@ const QRScannerModal = ({ isOpen, onClose, onScan }) => {
             {flashSupported && isScanning && (
               <button
                 onClick={toggleFlash}
-                className={`px-4 py-2 rounded font-medium transition-colors ${
+                className={`px-4 py-2 rounded font-medium transition-colors flex items-center gap-2 ${
                   flashOn
                     ? "bg-yellow-500 text-white hover:bg-yellow-600"
                     : "bg-gray-500 text-white hover:bg-gray-600"
                 }`}
               >
-                {flashOn ? "🔦" : "💡"}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  {flashOn ? (
+                    <path
+                      d="m13 2-3 6h4l-3 6 3-6h-4l3-6z"
+                      fill="currentColor"
+                    />
+                  ) : (
+                    <path d="M13 2v6h4l-3 6-3-6h4V2z" />
+                  )}
+                </svg>
+                {flashOn ? "Flash ON" : "Flash OFF"}
               </button>
             )}
 
