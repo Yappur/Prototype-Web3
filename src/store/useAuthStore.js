@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { metamaskConnection } from "../utils/metamaskConnection";
+import { showSuccessToast } from "../components/Modals/CustomToast";
 
 const useWalletStore = create((set, get) => ({
   provider: undefined,
@@ -34,6 +35,7 @@ const useWalletStore = create((set, get) => ({
         isConnected: true,
         shortAddress: `${address?.slice(0, 8)}...${address?.slice(-8)}`,
       });
+      showSuccessToast("¡Wallet conectada exitosamente!");
     } catch (error) {
       get().setError(error.message);
       set({ isLoading: false });

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import arrowDown from "../assets/icons/arrowDown.svg";
 import calendar from "../assets/icons/calendarIcon.svg";
+import { showErrorToast, showSuccessToast } from "./Modals/CustomToast";
 
 const FormCertificate = () => {
   const [fecha, setFecha] = useState("");
@@ -95,10 +96,10 @@ const FormCertificate = () => {
         lugarProduccion,
       };
       console.log(datosFormulario);
-      alert("¡Certificado emitido con éxito!");
+      showSuccessToast("¡Certificado emitido con éxito!");
     } else {
       console.log("Formulario con errores");
-      alert("Por favor, completa todos los campos requeridos.");
+      showErrorToast("Por favor, completa todos los campos requeridos.");
     }
   };
 
