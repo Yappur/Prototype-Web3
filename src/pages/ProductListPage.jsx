@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import InputCheckbox from "../common/InputCheckbox";
-import { Sidebar } from "../components/Sidebar";
 
 // const exampleProducts = new Array(40).fill({
 //   name: "Camisa Origen",
@@ -206,11 +205,9 @@ export function ProductListPage() {
     return buttons;
   };
   return (
-    <main className="grid grid-cols-[1fr_10fr] min-h-lvh">
-      <Sidebar />
-
-      <section className="px-8 py-6 w-full">
-        <header className="grid grid-cols-2 py-2 mb-20">
+    <main className="grid">
+      <section className="px-8 py-6 w-full max-w-full">
+        <header className="flex justify-between items-center py-2 mb-20">
           <h5 className="font-normal text-lg">Certificados</h5>
           <div className="flex justify-end items-center gap-4">
             <span className="font-normal text-lg">Constanza</span>
@@ -228,45 +225,46 @@ export function ProductListPage() {
             </button>
           </div>
         </div>
-
-        <table className="w-full mt-12">
-          <tbody>
-            <tr className="text-table-header border-table-border border-b-1 py-1">
-              <th className="font-medium text-start">
-                <InputCheckbox id={"selectAll"} />
-              </th>
-              <th className="font-medium py-2 text-start">Nombre</th>
-              <th className="font-medium py-2 text-start">Emisor</th>
-              <th className="font-medium py-2 text-start">Tipo</th>
-              <th className="font-medium py-2 text-start">Fecha</th>
-              <th className="font-medium py-2 text-start">Ubicación</th>
-              <th className="font-medium py-2 text-start">
-                Link del Certificado
-              </th>
-            </tr>
-            {products.length > 0 &&
-              products.map((product, id) => {
-                return (
-                  <tr
-                    key={id}
-                    className=" text-table-body border-table-border border-b-1 hover:bg-[#FFF8F3AB] hover:cursor-pointer transition-all"
-                  >
-                    <td>
-                      <InputCheckbox id={`${product.name}-check`} />
-                    </td>
-                    <td className="font-medium py-2">{product?.name}</td>
-                    <td className="font-medium py-2">{product?.source}</td>
-                    <td className="font-medium py-2">{product?.type}</td>
-                    <td className="font-medium py-2">{product?.date}</td>
-                    <td className="font-medium py-2">{product?.location}</td>
-                    <td className="font-medium py-2">
-                      {product?.certificationLink}
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[800px]">
+            <tbody>
+              <tr className="text-table-header border-table-border border-b-1 py-1">
+                <th className="font-medium text-start">
+                  <InputCheckbox id={"selectAll"} />
+                </th>
+                <th className="font-medium py-2 text-start">Nombre</th>
+                <th className="font-medium py-2 text-start">Emisor</th>
+                <th className="font-medium py-2 text-start">Tipo</th>
+                <th className="font-medium py-2 text-start">Fecha</th>
+                <th className="font-medium py-2 text-start">Ubicación</th>
+                <th className="font-medium py-2 text-start">
+                  Link del Certificado
+                </th>
+              </tr>
+              {products.length > 0 &&
+                products.map((product, id) => {
+                  return (
+                    <tr
+                      key={id}
+                      className=" text-table-body border-table-border border-b-1 hover:bg-[#FFF8F3AB] hover:cursor-pointer transition-all"
+                    >
+                      <td>
+                        <InputCheckbox id={`${product.name}-check`} />
+                      </td>
+                      <td className="font-medium py-2">{product?.name}</td>
+                      <td className="font-medium py-2">{product?.source}</td>
+                      <td className="font-medium py-2">{product?.type}</td>
+                      <td className="font-medium py-2">{product?.date}</td>
+                      <td className="font-medium py-2">{product?.location}</td>
+                      <td className="font-medium py-2">
+                        {product?.certificationLink}
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
 
         <footer className="flex justify-between gap-4 mt-8">
           <span>Filas por página: 10</span>

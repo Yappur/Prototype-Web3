@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 export const Sidebar = () => {
   return (
-    <aside className="bg-sidebar max-w-[100px] flex flex-col items-center justify-between py-8">
+    <aside className="bg-sidebar max-w-[100px] fixed h-screen flex flex-col items-center justify-between px-8 py-8">
       <svg
         width="22"
         height="21"
