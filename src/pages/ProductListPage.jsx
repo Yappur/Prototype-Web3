@@ -104,6 +104,7 @@ export function ProductListPage() {
     totalPages: Math.ceil(exampleProducts.length / 10),
     total: exampleProducts.length,
   });
+  const [rowsSelected, setRowsSelected] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -219,7 +220,7 @@ export function ProductListPage() {
               <h3 className="font-medium text-lg text-gray-900">
                 {product.name}
               </h3>
-              <InputCheckbox id={`mobile-${product.name}-check`} />
+              <InputCheckbox id={product.name} onCheck={onCheckProduct} />
             </div>
 
             <div className="grid grid-cols-1 gap-2 text-sm">
@@ -255,6 +256,17 @@ export function ProductListPage() {
         ))}
       </div>
     );
+  };
+
+  const onCheckProduct = (id, isChecked) => {
+    if (id === "selectAll") {
+      if (isChecked) setRowsSelected(products.map((product) => product.name));
+      if (!isChecked) setRowsSelected([]);
+    } else {
+      if (isChecked) setRowsSelected((rows) => [...rows, id]);
+      if (!isChecked)
+        setRowsSelected((rows) => rows.filter((row) => row !== id));
+    }
   };
 
   return (
@@ -297,7 +309,11 @@ export function ProductListPage() {
                 <thead className="bg-gray-50">
                   <tr className="border-b border-gray-200">
                     <th className="text-left py-3 px-4 font-medium text-gray-900">
-                      <InputCheckbox id="selectAll" />
+                      <InputCheckbox
+                        id="selectAll"
+                        onCheck={onCheckProduct}
+                        isChecked={rowsSelected.length === 10}
+                      />
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-gray-900">
                       Nombre
@@ -323,10 +339,18 @@ export function ProductListPage() {
                   {products.map((product, id) => (
                     <tr
                       key={id}
-                      className="hover:bg-orange-50 hover:cursor-pointer transition-colors"
+                      className={`${
+                        rowsSelected.includes(product.name)
+                          ? "bg-table-body-selected"
+                          : "bg-white"
+                      }`}
                     >
                       <td className="py-3 px-4">
-                        <InputCheckbox id={`${product.name}-check`} />
+                        <InputCheckbox
+                          id={product.name}
+                          onCheck={onCheckProduct}
+                          isChecked={rowsSelected.includes(product.name)}
+                        />
                       </td>
                       <td className="py-3 px-4 font-medium text-gray-900">
                         {product.name}

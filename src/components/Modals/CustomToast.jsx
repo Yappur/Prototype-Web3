@@ -76,22 +76,4 @@ const CustomToast = () => {
   );
 };
 
-// Funciones helper para mostrar toasts personalizados
-// export const showSuccessToast = (message) => {
-//   toast.success(message, {
-//     style: {
-//       background: "#1a1a1a",
-//       color: "#fff",
-//     },
-//     iconTheme: {
-//       primary: "#fff",
-//       secondary: "#1a1a1a",
-//     },
-//   });
-// };
-
-// export const showErrorToast = (message) => {
-//   toast.error(message);
-// };
-
 export default CustomToast;
