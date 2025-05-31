@@ -32,12 +32,11 @@ export default function Home() {
   const [hasAnimated, setHasAnimated] = useState(false);
   const navigate = useNavigate();
 
-  // Marcar que las animaciones ya se ejecutaron
   useEffect(() => {
     if (!hasAnimated) {
       const timer = setTimeout(() => {
         setHasAnimated(true);
-      }, 2000); // Tiempo suficiente para que terminen las animaciones iniciales
+      }, 2000);
 
       return () => clearTimeout(timer);
     }

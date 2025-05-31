@@ -295,10 +295,7 @@ export function ProductListPage() {
       rowsSelected.includes(product.name)
     );
 
-    for (const product of selectedProducts) {
-      await exportToPDF(product);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
+    await exportToPDF(selectedProducts);
   };
 
   const onCheckProduct = (id, isChecked) => {
