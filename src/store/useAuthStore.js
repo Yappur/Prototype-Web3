@@ -7,6 +7,8 @@ const useWalletStore = create((set, get) => ({
   address: undefined,
   shortAddress: undefined,
 
+  ensName: null,
+
   isConnected: false,
   isLoading: false,
   error: null,
@@ -22,11 +24,12 @@ const useWalletStore = create((set, get) => ({
   connectWallet: async () => {
     set({ isLoading: true });
     try {
-      const { provider, signer, address } = await metamaskConnection();
+      const { provider, signer, address, ensName } = await metamaskConnection();
       set({
         provider,
         signer,
         address,
+        ensName,
         isLoading: false,
         isConnected: true,
         shortAddress: `${address?.slice(0, 8)}...${address?.slice(-8)}`,
@@ -44,6 +47,10 @@ const useWalletStore = create((set, get) => ({
       shortAddress: undefined,
       isConnected: false,
     });
+  },
+  getDisplayName: () => {
+    const { ensName, shortAddress, address } = get();
+    return ensName || shortAddress || address || "Sin conectar";
   },
 }));
 

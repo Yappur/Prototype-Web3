@@ -13,8 +13,10 @@ const LayoutCompleteProducers = () => {
   return (
     <div className="min-h-screen">
       <Sidebar />
-      <main className="ml-[100px] min-h-screen">
-        <Outlet />
+      <main className="pl-[100px] min-h-screen flex justify-center">
+        <div className="w-full">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

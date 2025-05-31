@@ -59,8 +59,9 @@ const FormCertificate = () => {
       nuevosErrores.emisor = "Este campo es obligatorio";
     }
 
+    // Corregido: removido la "L" extra en el mensaje de error
     if (!cantidad || cantidad <= 0) {
-      nuevosErrores.cantidad = "LEste campo es obligatorio";
+      nuevosErrores.cantidad = "Este campo es obligatorio";
     }
 
     if (!descripcion.trim()) {
@@ -84,7 +85,6 @@ const FormCertificate = () => {
 
     if (validarFormulario()) {
       console.log("Formulario enviado con éxito");
-      // Aquí puedes procesar los datos del formulario
       const datosFormulario = {
         nombre,
         tipoProducto,
@@ -117,239 +117,248 @@ const FormCertificate = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4">
-      <div className="space-y-6">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="nombre" className="block text-sm font-medium mb-1">
-              Nombre del producto
-            </label>
-            <input
-              id="nombre"
-              type="text"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              className={`w-full px-3 py-2 border shadow-sm placeholder-gray-400 focus:outline-none focus:ring focus:ring-orange-400 ${
-                errores.nombre ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder=""
-            />
-            {errores.nombre && (
-              <p className="text-red-500 text-sm mt-1">{errores.nombre}</p>
-            )}
-          </div>
-
-          <div className="relative">
-            <label htmlFor="tipo" className="block text-sm font-medium mb-1">
-              Tipo de producto
-            </label>
-            <button
-              type="button"
-              className={`w-full px-3 py-2 border shadow-sm placeholder-gray-400 focus:outline-none focus:ring focus:ring-orange-400 flex justify-between items-center ${
-                errores.tipoProducto ? "border-red-500" : "border-gray-300"
-              }`}
-              onClick={() => setMostrarTipoSelect(!mostrarTipoSelect)}
-            >
-              <span
-                className={tipoProducto ? "text-gray-900" : "text-gray-400"}
+    <div className="w-full flex justify-center px-4 py-8">
+      <div className="w-full max-w-3xl">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="nombre"
+                className="block text-sm font-medium mb-1"
               >
-                {tipoProducto
-                  ? tiposProducto.find((t) => t.value === tipoProducto)?.label
-                  : "Ej: Indumentaria, Alimento..."}
-              </span>
-              <img src={arrowDown} alt="arrowDown" className="h-5 w-5" />
-            </button>
-            {mostrarTipoSelect && (
-              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
-                {tiposProducto.map((tipo) => (
-                  <button
-                    key={tipo.value}
-                    type="button"
-                    className="w-full px-3 py-2 text-left hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
-                    onClick={() => {
-                      setTipoProducto(tipo.value);
-                      setMostrarTipoSelect(false);
-                    }}
-                  >
-                    {tipo.label}
-                  </button>
-                ))}
-              </div>
-            )}
-            {errores.tipoProducto && (
-              <p className="text-red-500 text-sm mt-1">
-                {errores.tipoProducto}
-              </p>
-            )}
-          </div>
-        </div>
+                Nombre del producto
+              </label>
+              <input
+                id="nombre"
+                type="text"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+                className={`w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
+                  errores.nombre ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="Ingrese el nombre del producto"
+              />
+              {errores.nombre && (
+                <p className="text-red-500 text-sm mt-1">{errores.nombre}</p>
+              )}
+            </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="emisor" className="block text-sm font-medium mb-1">
-              Emisor
-            </label>
-            <input
-              id="emisor"
-              type="text"
-              value={emisor}
-              onChange={(e) => setEmisor(e.target.value)}
-              className={`w-full px-3 py-2 border shadow-sm placeholder-gray-400 focus:outline-none focus:ring focus:ring-orange-400 ${
-                errores.emisor ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder="Ej. Fundacion EcoRaíz"
-            />
-            {errores.emisor && (
-              <p className="text-red-500 text-sm mt-1">{errores.emisor}</p>
-            )}
+            <div className="relative">
+              <label htmlFor="tipo" className="block text-sm font-medium mb-1">
+                Tipo de producto
+              </label>
+              <button
+                type="button"
+                className={`w-full px-3 py-2 border rounded-md shadow-sm text-left focus:outline-none focus:ring-2 focus:ring-orange-400 flex justify-between items-center ${
+                  errores.tipoProducto ? "border-red-500" : "border-gray-300"
+                }`}
+                onClick={() => setMostrarTipoSelect(!mostrarTipoSelect)}
+              >
+                <span
+                  className={tipoProducto ? "text-gray-900" : "text-gray-400"}
+                >
+                  {tipoProducto
+                    ? tiposProducto.find((t) => t.value === tipoProducto)?.label
+                    : "Ej: Indumentaria, Alimento..."}
+                </span>
+                <img src={arrowDown} alt="arrowDown" className="h-5 w-5" />
+              </button>
+              {mostrarTipoSelect && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                  {tiposProducto.map((tipo) => (
+                    <button
+                      key={tipo.value}
+                      type="button"
+                      className="w-full px-3 py-2 text-left hover:bg-gray-100 focus:bg-gray-100 focus:outline-none first:rounded-t-md last:rounded-b-md"
+                      onClick={() => {
+                        setTipoProducto(tipo.value);
+                        setMostrarTipoSelect(false);
+                      }}
+                    >
+                      {tipo.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {errores.tipoProducto && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errores.tipoProducto}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="emisor"
+                className="block text-sm font-medium mb-1"
+              >
+                Emisor
+              </label>
+              <input
+                id="emisor"
+                type="text"
+                value={emisor}
+                onChange={(e) => setEmisor(e.target.value)}
+                className={`w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
+                  errores.emisor ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="Ej. Fundación EcoRaíz"
+              />
+              {errores.emisor && (
+                <p className="text-red-500 text-sm mt-1">{errores.emisor}</p>
+              )}
+            </div>
+
+            <div>
+              <label
+                htmlFor="cantidad"
+                className="block text-sm font-medium mb-1"
+              >
+                Cantidad
+              </label>
+              <input
+                id="cantidad"
+                type="number"
+                value={cantidad}
+                onChange={(e) => setCantidad(e.target.value)}
+                className={`w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
+                  errores.cantidad ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="Ingrese la cantidad"
+                min="1"
+              />
+              {errores.cantidad && (
+                <p className="text-red-500 text-sm mt-1">{errores.cantidad}</p>
+              )}
+            </div>
           </div>
 
           <div>
             <label
-              htmlFor="cantidad"
+              htmlFor="descripcion"
               className="block text-sm font-medium mb-1"
             >
-              Cantidad
+              Descripción
             </label>
-            <input
-              id="cantidad"
-              type="number"
-              value={cantidad}
-              onChange={(e) => setCantidad(e.target.value)}
-              className={`w-full px-3 py-2 border shadow-sm placeholder-gray-400 focus:outline-none focus:ring focus:ring-orange-400 ${
-                errores.cantidad ? "border-red-500" : "border-gray-300"
+            <textarea
+              id="descripcion"
+              rows={3}
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+              className={`w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 resize-vertical ${
+                errores.descripcion ? "border-red-500" : "border-gray-300"
               }`}
-              placeholder="Ingrese la cantidad"
-              min="1"
+              placeholder="Describe el producto, su origen o proceso."
             />
-            {errores.cantidad && (
-              <p className="text-red-500 text-sm mt-1">{errores.cantidad}</p>
-            )}
-          </div>
-        </div>
-
-        <div>
-          <label
-            htmlFor="descripcion"
-            className="block text-sm font-medium mb-1"
-          >
-            Descripción
-          </label>
-          <textarea
-            id="descripcion"
-            rows={3}
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-            className={`w-full px-3 py-2 border shadow-sm placeholder-gray-400 focus:outline-none focus:ring focus:ring-orange-400 resize-vertical ${
-              errores.descripcion ? "border-red-500" : "border-gray-300"
-            }`}
-            placeholder="Describe el producto, su origen o proceso."
-          />
-          {errores.descripcion && (
-            <p className="text-red-500 text-sm mt-1">{errores.descripcion}</p>
-          )}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="relative">
-            <label className="block text-sm font-medium mb-1">
-              Fecha de producción
-            </label>
-            <button
-              type="button"
-              className={`w-full px-3 py-2 border shadow-sm placeholder-gray-400 focus:outline-none focus:ring focus:ring-orange-400 flex justify-between items-center ${
-                errores.fecha ? "border-red-500" : "border-gray-300"
-              }`}
-              onClick={() => setMostrarCalendar(!mostrarCalendar)}
-            >
-              <span className={fecha ? "text-gray-900" : "text-gray-500"}>
-                {fecha ? formatearFecha(fecha) : "Elegí una fecha"}
-              </span>
-              <div>
-                <img src={calendar} alt="calendar" className="h-5 w-5" />
-              </div>
-            </button>
-            {mostrarCalendar && (
-              <div className="absolute z-10 mt-1 p-3 bg-white border border-gray-300 rounded-md shadow-lg">
-                <input
-                  type="date"
-                  className="w-full px-3 py-2 border border-gray-300 shadow-sm placeholder-gray-400 focus:outline-none focus:ring focus:ring-orange-400"
-                  value={fecha}
-                  onChange={(e) => {
-                    setFecha(e.target.value);
-                    setMostrarCalendar(false);
-                  }}
-                />
-              </div>
-            )}
-            {errores.fecha && (
-              <p className="text-red-500 text-sm mt-1">{errores.fecha}</p>
+            {errores.descripcion && (
+              <p className="text-red-500 text-sm mt-1">{errores.descripcion}</p>
             )}
           </div>
 
-          <div className="relative">
-            <label className="block text-sm font-medium mb-1">
-              Lugar de producción
-            </label>
-            <button
-              type="button"
-              className={`w-full px-3 py-2 border shadow-sm placeholder-gray-400 focus:outline-none focus:ring focus:ring-orange-400 flex justify-between items-center ${
-                errores.lugarProduccion ? "border-red-500" : "border-gray-300"
-              }`}
-              onClick={() => setMostrarLugarSelect(!mostrarLugarSelect)}
-            >
-              <span
-                className={lugarProduccion ? "text-gray-900" : "text-gray-400"}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="relative">
+              <label className="block text-sm font-medium mb-1">
+                Fecha de producción
+              </label>
+              <button
+                type="button"
+                className={`w-full px-3 py-2 border rounded-md shadow-sm text-left focus:outline-none focus:ring-2 focus:ring-orange-400 flex justify-between items-center ${
+                  errores.fecha ? "border-red-500" : "border-gray-300"
+                }`}
+                onClick={() => setMostrarCalendar(!mostrarCalendar)}
               >
-                {lugarProduccion
-                  ? lugaresProduccion.find((l) => l.value === lugarProduccion)
-                      ?.label
-                  : "Elegí un lugar desde el dropdown"}
-              </span>
-
-              <img src={arrowDown} alt="arrowDown" className="h-5 w-5" />
-            </button>
-            {mostrarLugarSelect && (
-              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
-                {lugaresProduccion.map((lugar) => (
-                  <button
-                    key={lugar.value}
-                    type="button"
-                    className="w-full px-3 py-2 text-left hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
-                    onClick={() => {
-                      setLugarProduccion(lugar.value);
-                      setMostrarLugarSelect(false);
+                <span className={fecha ? "text-gray-900" : "text-gray-500"}>
+                  {fecha ? formatearFecha(fecha) : "Elegí una fecha"}
+                </span>
+                <div>
+                  <img src={calendar} alt="calendar" className="h-5 w-5" />
+                </div>
+              </button>
+              {mostrarCalendar && (
+                <div className="absolute z-10 mt-1 p-3 bg-white border border-gray-300 rounded-md shadow-lg">
+                  <input
+                    type="date"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                    value={fecha}
+                    onChange={(e) => {
+                      setFecha(e.target.value);
+                      setMostrarCalendar(false);
                     }}
-                  >
-                    {lugar.label}
-                  </button>
-                ))}
-              </div>
-            )}
-            {errores.lugarProduccion && (
-              <p className="text-red-500 text-sm mt-1">
-                {errores.lugarProduccion}
-              </p>
-            )}
-          </div>
-        </div>
+                  />
+                </div>
+              )}
+              {errores.fecha && (
+                <p className="text-red-500 text-sm mt-1">{errores.fecha}</p>
+              )}
+            </div>
 
-        <div className="flex justify-end space-x-4 pt-4">
-          <button
-            type="button"
-            onClick={limpiarFormulario}
-            className="px-4 py-2 border border-gray-300  text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring focus:ring-orange-500 transition-colors"
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="px-4 py-2 bg-[#202715] hover:bg-[#14180e] text-white  focus:outline-none transition-colors"
-          >
-            Emitir Certificado
-          </button>
-        </div>
+            <div className="relative">
+              <label className="block text-sm font-medium mb-1">
+                Lugar de producción
+              </label>
+              <button
+                type="button"
+                className={`w-full px-3 py-2 border rounded-md shadow-sm text-left focus:outline-none focus:ring-2 focus:ring-orange-400 flex justify-between items-center ${
+                  errores.lugarProduccion ? "border-red-500" : "border-gray-300"
+                }`}
+                onClick={() => setMostrarLugarSelect(!mostrarLugarSelect)}
+              >
+                <span
+                  className={
+                    lugarProduccion ? "text-gray-900" : "text-gray-400"
+                  }
+                >
+                  {lugarProduccion
+                    ? lugaresProduccion.find((l) => l.value === lugarProduccion)
+                        ?.label
+                    : "Elegí un lugar desde el dropdown"}
+                </span>
+
+                <img src={arrowDown} alt="arrowDown" className="h-5 w-5" />
+              </button>
+              {mostrarLugarSelect && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                  {lugaresProduccion.map((lugar) => (
+                    <button
+                      key={lugar.value}
+                      type="button"
+                      className="w-full px-3 py-2 text-left hover:bg-gray-100 focus:bg-gray-100 focus:outline-none first:rounded-t-md last:rounded-b-md"
+                      onClick={() => {
+                        setLugarProduccion(lugar.value);
+                        setMostrarLugarSelect(false);
+                      }}
+                    >
+                      {lugar.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {errores.lugarProduccion && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errores.lugarProduccion}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex justify-end space-x-4 pt-4">
+            <button
+              type="button"
+              onClick={limpiarFormulario}
+              className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 bg-[#202715] hover:bg-[#14180e] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors"
+            >
+              Emitir Certificado
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
