@@ -4,6 +4,7 @@ import ModalFormCertificate from "../components/Modals/ModalFormCertificate";
 import { useStore } from "zustand";
 import useWalletStore from "../store/useWalletStore";
 import ModalCertificate from "../components/Modals/ModalCertificate";
+import usePDFExport from "../hooks/usePDFExport";
 
 const exampleProducts = [
   {
@@ -120,6 +121,7 @@ const exampleProducts = [
 
 export function ProductListPage() {
   const { getDisplayName } = useStore(useWalletStore);
+  const { exportToPDF, isExporting } = usePDFExport();
 
   const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState({
@@ -283,6 +285,22 @@ export function ProductListPage() {
     );
   };
 
+  const handleExportSelected = async () => {
+    if (rowsSelected.length === 0) {
+      alert("Por favor, selecciona al menos un certificado para exportar.");
+      return;
+    }
+
+    const selectedProducts = exampleProducts.filter((product) =>
+      rowsSelected.includes(product.name)
+    );
+
+    for (const product of selectedProducts) {
+      await exportToPDF(product);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+  };
+
   const onCheckProduct = (id, isChecked) => {
     if (id === "selectAll") {
       if (isChecked) setRowsSelected(products.map((product) => product.name));
@@ -311,8 +329,12 @@ export function ProductListPage() {
             Productos Certificados
           </h2>
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <button className="py-2 px-4 text-center border border-black text-sm cursor-pointer hover:bg-gray-50 transition-colors">
-              Exportar Certificado
+            <button
+              onClick={handleExportSelected}
+              disabled={rowsSelected.length === 0 || isExporting}
+              className="py-2 px-4 text-center border border-black text-sm cursor-pointer hover:bg-gray-50 transition-colors disabled:opacity-50"
+            >
+              {isExporting ? "Exportando..." : "Exportar Certificado"}
             </button>
             <button
               onClick={() => setIsFormModalOpen(true)}
