@@ -1,46 +1,64 @@
-import { useState } from "react";
-import QRScannerModal from "../components/Modals/QRScannerModal.jsx";
-import noise from "../assets/background/noise.png";
-import raizBg from "../assets/background/raiz-bg.svg";
-import bgBase64 from "../assets/background/bgImage.js";
-import LandingNavbar from "../components/Navigate/LandingNavbar.jsx";
-import arrowLeft from "../assets/icons/arrowLeft.svg";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "zustand";
 import useWalletStore from "../store/useAuthStore.js";
+import QRScannerModal from "../components/Modals/QRScannerModal.jsx";
+import LandingNavbar from "../components/Navigate/LandingNavbar.jsx";
+import noise from "../assets/background/noise.png";
+import raizBg from "../assets/background/raiz-bg.svg";
+import bgBase64 from "../assets/background/bgImage.js";
+import arrowLeft from "../assets/icons/arrowLeft.svg";
+import {
+  containerVariants,
+  titleVariants,
+  rightSectionVariants,
+  cardVariants,
+  backgroundImageVariants,
+  titleTextVariants,
+  arrowAnimation,
+  hoverAnimations,
+  transitionConfigs,
+} from "../utils/homeAnimations.js";
 
 export default function Home() {
   const { isConnected, connectWallet, disconnectWallet, shortAddress } =
     useStore(useWalletStore);
-
   const [showError, setShowError] = useState(true);
   const [showQRScanner, setShowQRScanner] = useState(false);
-  const [scannedData, setScannedData] = useState(null);
   const [scanSuccess, setScanSuccess] = useState(false);
-
+  const [hasAnimated, setHasAnimated] = useState(false);
   const navigate = useNavigate();
+
+  // Marcar que las animaciones ya se ejecutaron
+  useEffect(() => {
+    if (!hasAnimated) {
+      const timer = setTimeout(() => {
+        setHasAnimated(true);
+      }, 2000); // Tiempo suficiente para que terminen las animaciones iniciales
+
+      return () => clearTimeout(timer);
+    }
+  }, [hasAnimated]);
 
   const handleWalletClick = async () => {
     if (isConnected) {
       await disconnectWallet();
     } else {
       await connectWallet();
-      navigate("/Producers");
+      navigate("/producers");
     }
   };
 
   const handleQRScan = (data) => {
     console.log("Código QR escaneado:", data);
-    setScannedData(data);
     setScanSuccess(true);
-
     processQRData(data);
   };
 
   const processQRData = (qrData) => {
     try {
       if (qrData.startsWith("http://") || qrData.startsWith("https://")) {
-        // Redireccionar a URL externa
         window.location.href = qrData;
         return;
       }
@@ -51,108 +69,195 @@ export default function Home() {
     }
   };
 
-  const openQRScanner = () => {
-    setShowQRScanner(true);
-  };
+  const WalletStatus = () => (
+    <AnimatePresence mode="wait">
+      {isConnected && shortAddress && (
+        <motion.div
+          key="wallet-status"
+          className="mb-8 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg p-4 max-w-md"
+          initial={{ opacity: 0, y: -20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -20, scale: 0.95 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-3 h-3 bg-green-500 rounded-full" />
+            <div>
+              <p className="text-sm font-medium text-gray-800">
+                Wallet Conectada
+              </p>
+              <p className="text-xs text-gray-600 font-mono">{shortAddress}</p>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 
-  const closeQRScanner = () => {
-    setShowQRScanner(false);
+  const MainTitle = () => (
+    <motion.div
+      className="flex flex-col justify-center"
+      variants={hasAnimated ? {} : titleVariants}
+      initial={hasAnimated ? false : "hidden"}
+      animate={hasAnimated ? false : "visible"}
+    >
+      <motion.h1
+        className="text-4xl lg:text-7xl font-normal leading-tight text-black mb-8"
+        {...(hasAnimated ? {} : transitionConfigs.mainTitle)}
+      >
+        <motion.span {...(hasAnimated ? {} : titleTextVariants.firstSpan)}>
+          Autenticidad y sostenibilidad
+        </motion.span>{" "}
+        <motion.span {...(hasAnimated ? {} : titleTextVariants.secondSpan)}>
+          para productos regionales.
+        </motion.span>
+      </motion.h1>
+    </motion.div>
+  );
+
+  const ScanSection = () => (
+    <motion.div
+      className="flex flex-col justify-center relative"
+      variants={hasAnimated ? {} : rightSectionVariants}
+      initial={hasAnimated ? false : "hidden"}
+      animate={hasAnimated ? false : "visible"}
+    >
+      <motion.div
+        className="absolute left-0 top-0 bottom-0 bg-black border-1 hidden lg:block"
+        {...(hasAnimated ? {} : transitionConfigs.verticalLine)}
+      />
+      <div className="lg:pl-40">
+        <motion.div
+          className="flex items-center gap-4 mb-7"
+          {...(hasAnimated ? {} : transitionConfigs.scanSection)}
+        >
+          <motion.img src={arrowLeft} alt="flecha" {...arrowAnimation} />
+          <h2
+            className="text-4xl font-medium text-black cursor-pointer"
+            onClick={() => setShowQRScanner(true)}
+          >
+            Escanea tu producto
+          </h2>
+        </motion.div>
+        <motion.p
+          className="text-2xl text-gray-800 leading-relaxed"
+          {...(hasAnimated ? {} : transitionConfigs.description)}
+        >
+          Escaneá tu producto para acceder a <br /> información detallada sobre
+          su <br /> origen.
+        </motion.p>
+      </div>
+    </motion.div>
+  );
+
+  const InfoCards = () => {
+    const cardsData = [
+      {
+        title: "Volvé al origen",
+        description:
+          "Conocé productos sostenibles con sus verdaderas historias.",
+      },
+      {
+        title: "Verificá lo auténtico",
+        description:
+          "Cada artículo cuenta con una raíz: un origen verificable y transparente, registrado con tecnología descentralizada.",
+      },
+    ];
+
+    return (
+      <motion.div
+        className="pt-16"
+        {...(hasAnimated ? {} : transitionConfigs.cardsContainer)}
+      >
+        <div className="lg:w-1/2 w-full">
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+            variants={hasAnimated ? {} : containerVariants}
+            initial={hasAnimated ? false : "hidden"}
+            animate={hasAnimated ? false : "visible"}
+          >
+            {cardsData.map((card, index) => (
+              <motion.div
+                key={index}
+                variants={hasAnimated ? {} : cardVariants}
+                whileHover="hover" // Los hovers sí deben mantenerse
+                className="cursor-pointer"
+              >
+                <motion.h3
+                  className="text-3xl font-medium text-black mb-4"
+                  whileHover={hoverAnimations.cardText}
+                >
+                  {card.title}
+                </motion.h3>
+                <motion.p
+                  className="text-xl text-gray-800 leading-relaxed"
+                  initial={{ opacity: 0.8 }}
+                  whileHover={hoverAnimations.cardDescription}
+                >
+                  {card.description}
+                </motion.p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </motion.div>
+    );
   };
 
   return (
-    <div
-      className="min-h-screen w-full bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: `url("${noise}"), url("${bgBase64}")`,
-      }}
-    >
-      <img
-        src={raizBg || "/placeholder.svg"}
-        alt="Raiz background"
-        className="fixed bottom-0 right-0 w-auto h-auto max-w-full max-h-full object-contain z-0 pointer-events-none hidden lg:block"
-      />
-      <LandingNavbar
-        showError={showError}
-        onWalletClick={handleWalletClick}
-        onQRScannerOpen={openQRScanner}
-        onCloseError={() => setShowError(false)}
-      />
+    <>
+      <motion.div
+        className="min-h-screen w-full bg-cover bg-center bg-no-repeat overflow-hidden"
+        style={{ backgroundImage: `url("${noise}"), url("${bgBase64}")` }}
+        initial={hasAnimated ? false : "hidden"}
+        animate={hasAnimated ? false : "visible"}
+        variants={hasAnimated ? {} : containerVariants}
+      >
+        <motion.img
+          src={raizBg || "/placeholder.svg"}
+          alt="Raiz background"
+          className="fixed bottom-0 right-0 w-auto h-auto max-w-full max-h-full object-contain z-0 pointer-events-none hidden lg:block"
+          variants={hasAnimated ? {} : backgroundImageVariants}
+          initial={hasAnimated ? false : "hidden"}
+          animate={hasAnimated ? false : "visible"}
+        />
 
-      <main className="relative z-10 px-8 py-16 mx-12">
-        {/* Información de cuenta conectada */}
-        {isConnected && shortAddress && (
-          <div className="mb-8 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg p-4 max-w-md">
-            <div className="flex items-center gap-3">
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <div>
-                <p className="text-sm font-medium text-gray-800">
-                  Wallet Conectada
-                </p>
-                <p className="text-xs text-gray-600 font-mono">
-                  {shortAddress}
-                </p>
-              </div>
-            </div>
-          </div>
+        <motion.div {...(hasAnimated ? {} : transitionConfigs.navbar)}>
+          <LandingNavbar
+            showError={showError}
+            onWalletClick={handleWalletClick}
+            onQRScannerOpen={() => setShowQRScanner(true)}
+            onCloseError={() => setShowError(false)}
+          />
+        </motion.div>
+
+        <main className="relative z-10 px-8 py-16 mx-12">
+          <WalletStatus />
+
+          <motion.div
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16"
+            variants={hasAnimated ? {} : containerVariants}
+            initial={hasAnimated ? false : "hidden"}
+            animate={hasAnimated ? false : "visible"}
+          >
+            <MainTitle />
+            <ScanSection />
+          </motion.div>
+
+          <InfoCards />
+        </main>
+      </motion.div>
+
+      <AnimatePresence mode="wait">
+        {showQRScanner && (
+          <QRScannerModal
+            key="qr-modal"
+            isOpen={showQRScanner}
+            onClose={() => setShowQRScanner(false)}
+            onScan={handleQRScan}
+          />
         )}
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          <div className="flex flex-col justify-center">
-            <h1 className="text-4xl lg:text-7xl font-normal leading-tight text-black mb-8">
-              Autenticidad y sostenibilidad para productos regionales.
-            </h1>
-          </div>
-
-          <div className="flex flex-col justify-center relative">
-            {/* Línea divisoria vertical */}
-            <div className="absolute left-0 top-0 bottom-0 bg-black border-1 hidden lg:block"></div>
-
-            <div className="lg:pl-40">
-              <div className="flex items-center gap-4 mb-7">
-                <img src={arrowLeft} alt="flecha" />
-                <h2 className="text-4xl font-medium text-black">
-                  Escanea tu producto
-                </h2>
-              </div>
-              <p className="text-2xl text-gray-800 leading-relaxed">
-                Escaneá tu producto para acceder a <br /> información detallada
-                sobre su <br /> origen.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="pt-16">
-          <div className="lg:w-1/2 w-full">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-3xl font-medium text-black mb-4">
-                  Volvé al origen
-                </h3>
-                <p className="text-xl text-gray-800 leading-relaxed">
-                  Conocé productos sostenibles con sus verdaderas historias.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-3xl font-medium text-black mb-4">
-                  Verificá lo auténtico
-                </h3>
-                <p className="text-xl text-gray-800 leading-relaxed">
-                  Cada artículo cuenta con una raíz: un origen verificable y
-                  transparente, registrado con tecnología descentralizada.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <QRScannerModal
-        isOpen={showQRScanner}
-        onClose={closeQRScanner}
-        onScan={handleQRScan}
-      />
-    </div>
+      </AnimatePresence>
+    </>
   );
 }
