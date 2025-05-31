@@ -3,6 +3,7 @@ import InputCheckbox from "../common/InputCheckbox";
 import ModalFormCertificate from "../components/Modals/ModalFormCertificate";
 import { useStore } from "zustand";
 import useWalletStore from "../store/useWalletStore";
+import ModalCertificate from "../components/Modals/ModalCertificate";
 
 const exampleProducts = [
   {
@@ -12,6 +13,8 @@ const exampleProducts = [
     date: "06-07-2027",
     location: "Córdoba, Argentina",
     certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
   },
   {
     name: "Camisa Origen 2",
@@ -20,6 +23,8 @@ const exampleProducts = [
     date: "06-07-2027",
     location: "Córdoba, Argentina",
     certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
   },
   {
     name: "Camisa Origen 3",
@@ -28,6 +33,8 @@ const exampleProducts = [
     date: "06-07-2027",
     location: "Córdoba, Argentina",
     certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
   },
   {
     name: "Camisa Origen 4",
@@ -36,6 +43,8 @@ const exampleProducts = [
     date: "06-07-2027",
     location: "Córdoba, Argentina",
     certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
   },
   {
     name: "Camisa Origen 5",
@@ -44,6 +53,8 @@ const exampleProducts = [
     date: "06-07-2027",
     location: "Córdoba, Argentina",
     certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
   },
   {
     name: "Camisa Origen 6",
@@ -52,6 +63,8 @@ const exampleProducts = [
     date: "06-07-2027",
     location: "Córdoba, Argentina",
     certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
   },
   {
     name: "Camisa Origen 7",
@@ -60,6 +73,8 @@ const exampleProducts = [
     date: "06-07-2027",
     location: "Córdoba, Argentina",
     certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
   },
   {
     name: "Camisa Origen 8",
@@ -68,6 +83,8 @@ const exampleProducts = [
     date: "06-07-2027",
     location: "Córdoba, Argentina",
     certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
   },
   {
     name: "Camisa Origen 9",
@@ -76,6 +93,8 @@ const exampleProducts = [
     date: "06-07-2027",
     location: "Córdoba, Argentina",
     certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
   },
   {
     name: "Camisa Origen 10",
@@ -84,6 +103,8 @@ const exampleProducts = [
     date: "06-07-2027",
     location: "Córdoba, Argentina",
     certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
   },
   {
     name: "Camisa Origen 11",
@@ -92,6 +113,8 @@ const exampleProducts = [
     date: "06-07-2027",
     location: "Córdoba, Argentina",
     certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
   },
 ];
 
@@ -105,7 +128,9 @@ export function ProductListPage() {
     total: exampleProducts.length,
   });
   const [rowsSelected, setRowsSelected] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isCertificateModalOpen, setIsCertificateModalOpen] = useState(false);
+  const [certificateOpened, setCertificateOpened] = useState();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -286,11 +311,11 @@ export function ProductListPage() {
             Productos Certificados
           </h2>
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <button className="py-2 px-4 text-center border border-gray-300 text-sm cursor-pointer hover:bg-gray-50 transition-colors">
+            <button className="py-2 px-4 text-center border border-black text-sm cursor-pointer hover:bg-gray-50 transition-colors">
               Exportar Certificado
             </button>
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsFormModalOpen(true)}
               className="py-2 px-4 text-center border border-black bg-black text-white text-sm cursor-pointer hover:bg-gray-800 transition-colors"
             >
               Nuevo Certificado
@@ -352,7 +377,13 @@ export function ProductListPage() {
                           isChecked={rowsSelected.includes(product.name)}
                         />
                       </td>
-                      <td className="py-3 px-4 font-medium text-gray-900">
+                      <td
+                        onClick={() => {
+                          setCertificateOpened(product);
+                          setIsCertificateModalOpen(true);
+                        }}
+                        className="py-3 px-4 font-medium text-gray-900 hover:text-table-body-hover transition-colors cursor-pointer"
+                      >
                         {product.name}
                       </td>
                       <td className="py-3 px-4 text-gray-700">
@@ -399,8 +430,14 @@ export function ProductListPage() {
       </section>
 
       <ModalFormCertificate
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isFormModalOpen}
+        onClose={() => setIsFormModalOpen(false)}
+      />
+
+      <ModalCertificate
+        isOpen={isCertificateModalOpen}
+        onClose={() => setIsCertificateModalOpen(false)}
+        certificate={certificateOpened}
       />
     </main>
   );
