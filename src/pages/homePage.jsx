@@ -3,12 +3,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "zustand";
 import useWalletStore from "../store/useWalletStore";
+import useAppStore from "../store/useAppStore.js";
 import QRScannerModal from "../components/Modals/QRScannerModal.jsx";
 import LandingNavbar from "../components/Navigate/LandingNavbar.jsx";
 import noise from "../assets/background/noise.png";
 import raizBg from "../assets/background/raiz-bg.svg";
 import bgBase64 from "../assets/background/bgImage.js";
 import arrowLeft from "../assets/icons/arrowLeft.svg";
+import reverse from "../assets/icons/reverse.svg";
+import success from "../assets/icons/success.svg";
+
 import {
   containerVariants,
   titleVariants,
@@ -20,7 +24,6 @@ import {
   hoverAnimations,
   transitionConfigs,
 } from "../utils/homeAnimations.js";
-import useAppStore from "../store/useAppStore.js";
 
 export default function Home() {
   const { isConnected, connectWallet, disconnectWallet, shortAddress } =
@@ -168,19 +171,20 @@ export default function Home() {
         title: "Volvé al origen",
         description:
           "Conocé productos sostenibles con sus verdaderas historias.",
+        image: reverse,
+        imageAlt: "Reverse",
       },
       {
         title: "Verificá lo auténtico",
         description:
           "Cada artículo cuenta con una raíz: un origen verificable y transparente, registrado con tecnología descentralizada.",
+        image: success,
+        imageAlt: "Success",
       },
     ];
 
     return (
-      <motion.div
-        className="pt-16"
-        {...(hasAnimated ? {} : transitionConfigs.cardsContainer)}
-      >
+      <motion.div {...(hasAnimated ? {} : transitionConfigs.cardsContainer)}>
         <div className="lg:w-1/2 w-full">
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 gap-6"
@@ -192,9 +196,15 @@ export default function Home() {
               <motion.div
                 key={index}
                 variants={hasAnimated ? {} : cardVariants}
-                whileHover="hover" // Los hovers sí deben mantenerse
-                className="cursor-pointer"
+                whileHover="hover"
               >
+                <motion.div className="mb-6 flex justify-center lg:ml-22 lg:justify-start">
+                  <img
+                    src={card.image}
+                    alt={card.imageAlt}
+                    className="w-16 h-16 object-contain filter hover:brightness-110 transition-all duration-300"
+                  />
+                </motion.div>
                 <motion.h3
                   className="text-3xl font-medium text-black mb-4"
                   whileHover={hoverAnimations.cardText}
@@ -220,7 +230,7 @@ export default function Home() {
     <>
       <motion.div
         className="min-h-screen w-full bg-cover bg-center bg-no-repeat overflow-hidden"
-        style={{ backgroundImage: `url("${bgBase64}")` }}
+        style={{ backgroundImage: `url("${noise}"), url("${bgBase64}")` }}
         initial={hasAnimated ? false : "hidden"}
         animate={hasAnimated ? false : "visible"}
         variants={hasAnimated ? {} : containerVariants}
@@ -243,7 +253,7 @@ export default function Home() {
           />
         </motion.div>
 
-        <main className="relative z-10 px-8 py-16 mx-12">
+        <main className="relative z-10 px-8 py-10 mx-12">
           <WalletStatus />
 
           <motion.div
