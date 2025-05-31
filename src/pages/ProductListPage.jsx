@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import InputCheckbox from "../common/InputCheckbox";
+import ModalFormCertificate from "../components/Modals/ModalFormCertificate";
 
 // const exampleProducts = new Array(40).fill({
 //   name: "Camisa Origen",
@@ -109,6 +110,8 @@ export function ProductListPage() {
     totalPages: Math.ceil(exampleProducts.length / 10),
     total: exampleProducts.length,
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const minRange = pagination.page * 10 - 10;
@@ -220,7 +223,10 @@ export function ProductListPage() {
             <button className="py-2 px-4 text-center border border-button-border text-sm cursor-pointer">
               Exportar Certificado
             </button>
-            <button className="py-2 px-4 text-center border border-black bg-black text-white text-sm cursor-pointer">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="py-2 px-4 text-center border border-black bg-black text-white text-sm cursor-pointer"
+            >
               Nuevo Certificado
             </button>
           </div>
@@ -277,6 +283,10 @@ export function ProductListPage() {
           </span>
         </footer>
       </section>
+      <ModalFormCertificate
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </main>
   );
 }

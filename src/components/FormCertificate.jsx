@@ -117,7 +117,7 @@ const FormCertificate = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-10">
+    <div className="max-w-3xl mx-auto px-4">
       <div className="space-y-6">
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -157,7 +157,7 @@ const FormCertificate = () => {
                   ? tiposProducto.find((t) => t.value === tipoProducto)?.label
                   : "Ej: Indumentaria, Alimento..."}
               </span>
-              <div className="h-4 w-4 text-gray-400">▼</div>
+              <img src={arrowDown} alt="arrowDown" className="h-5 w-5" />
             </button>
             {mostrarTipoSelect && (
               <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
