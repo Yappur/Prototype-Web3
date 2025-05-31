@@ -1,32 +1,37 @@
 import { useState } from "react";
-import useWalletConnection from "../hooks/useWalletConnection.js";
 import QRScannerModal from "../components/Modals/QRScannerModal.jsx";
 import noise from "../assets/background/noise.png";
 import raizBg from "../assets/background/raiz-bg.svg";
 import bgBase64 from "../assets/background/bgImage.js";
 import LandingNavbar from "../components/Navigate/LandingNavbar.jsx";
 import arrowLeft from "../assets/icons/arrowLeft.svg";
+import useMetamaskConnection from "../hooks/useMetamaskConnection.js"
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const {
-    account,
+    connectWalletHandler,
+    disconnectWalletHandler,
     isConnected,
     isLoading,
     error,
-    connectWallet,
-    disconnectWallet,
-  } = useWalletConnection();
+    reducedAddress,
+    accountAddress
+  } = useMetamaskConnection();
 
   const [showError, setShowError] = useState(true);
   const [showQRScanner, setShowQRScanner] = useState(false);
   const [scannedData, setScannedData] = useState(null);
   const [scanSuccess, setScanSuccess] = useState(false);
 
+  const navigate = useNavigate()
+
   const handleWalletClick = async () => {
     if (isConnected) {
-      await disconnectWallet();
+      await disconnectWalletHandler();
     } else {
-      await connectWallet();
+      await connectWalletHandler();
+      navigate("/Producers")
     }
   };
 
@@ -73,7 +78,7 @@ export default function Home() {
         className="fixed bottom-0 right-0 w-auto h-auto max-w-full max-h-full object-contain z-0 pointer-events-none hidden lg:block"
       />
       <LandingNavbar
-        account={account}
+        account={accountAddress}
         isConnected={isConnected}
         isLoading={isLoading}
         error={error}
@@ -85,7 +90,7 @@ export default function Home() {
 
       <main className="relative z-10 px-8 py-16 mx-12">
         {/* Información de cuenta conectada */}
-        {isConnected && account && (
+        {isConnected && reducedAddress && (
           <div className="mb-8 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg p-4 max-w-md">
             <div className="flex items-center gap-3">
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -94,7 +99,7 @@ export default function Home() {
                   Wallet Conectada
                 </p>
                 <p className="text-xs text-gray-600 font-mono">
-                  {account.address.slice(0, 8)}...{account.address.slice(-8)}
+                  {reducedAddress}
                 </p>
               </div>
             </div>
