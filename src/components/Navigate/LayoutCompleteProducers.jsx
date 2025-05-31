@@ -10,10 +10,11 @@ const LayoutCompleteProducers = () => {
     setError("Por favor, conecte su wallet de MetaMask para acceder");
     return <Navigate to={"/"} />;
   }
+
   return (
     <div className="min-h-screen">
       <Sidebar />
-      <main className="pl-[100px] min-h-screen flex justify-center">
+      <main className=" pb-[80px] md:pl-[100px] md:pb-0 min-h-screen flex justify-center">
         <div className="w-full">
           <Outlet />
         </div>
