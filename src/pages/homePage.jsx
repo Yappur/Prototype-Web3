@@ -5,33 +5,31 @@ import raizBg from "../assets/background/raiz-bg.svg";
 import bgBase64 from "../assets/background/bgImage.js";
 import LandingNavbar from "../components/Navigate/LandingNavbar.jsx";
 import arrowLeft from "../assets/icons/arrowLeft.svg";
-import useMetamaskConnection from "../hooks/useMetamaskConnection.js"
 import { useNavigate } from "react-router-dom";
+import { useStore } from "zustand";
+import useWalletStore from "../store/useAuthStore.js";
 
 export default function Home() {
   const {
-    connectWalletHandler,
-    disconnectWalletHandler,
     isConnected,
-    isLoading,
-    error,
-    reducedAddress,
-    accountAddress
-  } = useMetamaskConnection();
+    connectWallet,
+    disconnectWallet,
+    shortAddress,
+  } = useStore(useWalletStore);
 
   const [showError, setShowError] = useState(true);
   const [showQRScanner, setShowQRScanner] = useState(false);
   const [scannedData, setScannedData] = useState(null);
   const [scanSuccess, setScanSuccess] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleWalletClick = async () => {
     if (isConnected) {
-      await disconnectWalletHandler();
+      await disconnectWallet();
     } else {
-      await connectWalletHandler();
-      navigate("/Producers")
+      await connectWallet();
+      navigate("/Producers");
     }
   };
 
@@ -78,10 +76,6 @@ export default function Home() {
         className="fixed bottom-0 right-0 w-auto h-auto max-w-full max-h-full object-contain z-0 pointer-events-none hidden lg:block"
       />
       <LandingNavbar
-        account={accountAddress}
-        isConnected={isConnected}
-        isLoading={isLoading}
-        error={error}
         showError={showError}
         onWalletClick={handleWalletClick}
         onQRScannerOpen={openQRScanner}
@@ -90,7 +84,7 @@ export default function Home() {
 
       <main className="relative z-10 px-8 py-16 mx-12">
         {/* Información de cuenta conectada */}
-        {isConnected && reducedAddress && (
+        {isConnected && shortAddress && (
           <div className="mb-8 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg p-4 max-w-md">
             <div className="flex items-center gap-3">
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -99,7 +93,7 @@ export default function Home() {
                   Wallet Conectada
                 </p>
                 <p className="text-xs text-gray-600 font-mono">
-                  {reducedAddress}
+                  {shortAddress}
                 </p>
               </div>
             </div>

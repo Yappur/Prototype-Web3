@@ -3,8 +3,11 @@ import RaizFavicon from "../../assets/RaizFavicon.svg?react";
 import HomeIcon from "../../assets/icons/homeIcon.svg?react";
 import FolderIcon from "../../assets/icons/folderIcon.svg?react";
 import ExitIcon from "../../assets/icons/exitIcon.svg?react";
+import { useStore } from "zustand";
+import useWalletStore from "../../store/useAuthStore";
 
 export const Sidebar = () => {
+  const { disconnectWallet } = useStore(useWalletStore);
   return (
     <aside className="bg-sidebar max-w-[100px] fixed h-screen flex flex-col items-center justify-between px-8 py-8">
       <RaizFavicon />
@@ -28,10 +31,12 @@ export const Sidebar = () => {
           )}
         </NavLink>
       </div>
-      <ExitIcon
-        className="hover:stroke-icon-hover transition-colors cursor-pointer"
-        stroke="black"
-      />
+      <button onClick={disconnectWallet}>
+        <ExitIcon
+          className="hover:stroke-icon-hover transition-colors cursor-pointer"
+          stroke="black"
+        />
+      </button>
     </aside>
   );
 };

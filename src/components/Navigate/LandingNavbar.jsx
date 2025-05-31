@@ -1,22 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/RaizLogo.svg";
+import { useStore } from "zustand";
+import useWalletStore from "../../store/useAuthStore";
 
-const LandingNavbar = ({
-  account,
-  isConnected,
-  isLoading,
-  error,
-  showError,
-  onWalletClick,
-  onQRScannerOpen,
-  onCloseError,
-}) => {
+const LandingNavbar = ({ onWalletClick, onQRScannerOpen }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const {isLoading, address, isConnected } = useStore(useWalletStore);
 
   const getWalletButtonText = () => {
     if (isLoading) return "Conectando...";
-    if (isConnected) return account?.meta?.name || "Wallet Conectada";
+    if (isConnected) return address?.meta?.name || "Wallet Conectada";
     return "Conectar Wallet";
   };
 
@@ -30,19 +25,6 @@ const LandingNavbar = ({
 
   return (
     <>
-      {/* Error Toast */}
-      {error && showError && (
-        <div className="fixed top-4 right-4 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg flex items-center gap-2">
-          <span className="text-sm">{error}</span>
-          <button
-            onClick={onCloseError}
-            className="text-red-500 hover:text-red-700 font-bold text-lg leading-none"
-          >
-            ×
-          </button>
-        </div>
-      )}
-
       <header className="relative z-10 mx-8 px-6 py-6 md:border-none border-b-2 border-black">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
