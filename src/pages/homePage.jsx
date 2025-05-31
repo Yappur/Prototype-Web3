@@ -220,7 +220,7 @@ export default function Home() {
     <>
       <motion.div
         className="min-h-screen w-full bg-cover bg-center bg-no-repeat overflow-hidden"
-        style={{ backgroundImage: `url("${noise}"), url("${bgBase64}")` }}
+        style={{ backgroundImage: `url("${bgBase64}")` }}
         initial={hasAnimated ? false : "hidden"}
         animate={hasAnimated ? false : "visible"}
         variants={hasAnimated ? {} : containerVariants}
