@@ -1,18 +1,35 @@
 import { useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import useWalletStore from "../../store/useAuthStore";
+import { useStore } from "zustand";
+import useAppStore from "../../store/useAppStore.js";
 
 const CustomToast = () => {
-  const { error, closeError } = useWalletStore();
+  const { toastMessage, toastType, closeToast } = useStore(useAppStore);
 
   useEffect(() => {
-    if (error) {
-      showErrorToast(error);
+    const showToast = (message, type) => {
+      const config = {
+        style: {
+          background: "#1a1a1a",
+          color: "#fff",
+        },
+        iconTheme: {
+          primary: "#fff",
+          secondary: "#1a1a1a",
+        },
+      };
+
+      if (type === "success") toast.success(message, config);
+      if (type === "error") toast.error(message, config);
+    };
+
+    if (toastMessage) {
+      showToast(toastMessage, toastType);
       setTimeout(() => {
-        closeError();
+        closeToast();
       }, 100);
     }
-  }, [error, closeError]);
+  }, [toastMessage, toastType, closeToast]);
 
   return (
     <Toaster
@@ -60,30 +77,21 @@ const CustomToast = () => {
 };
 
 // Funciones helper para mostrar toasts personalizados
-export const showSuccessToast = (message) => {
-  toast.success(message, {
-    style: {
-      background: "#1a1a1a",
-      color: "#fff",
-    },
-    iconTheme: {
-      primary: "#fff",
-      secondary: "#1a1a1a",
-    },
-  });
-};
+// export const showSuccessToast = (message) => {
+//   toast.success(message, {
+//     style: {
+//       background: "#1a1a1a",
+//       color: "#fff",
+//     },
+//     iconTheme: {
+//       primary: "#fff",
+//       secondary: "#1a1a1a",
+//     },
+//   });
+// };
 
-export const showErrorToast = (message) => {
-  toast.error(message, {
-    style: {
-      background: "#1a1a1a",
-      color: "#fff",
-    },
-    iconTheme: {
-      primary: "#fff",
-      secondary: "#1a1a1a",
-    },
-  });
-};
+// export const showErrorToast = (message) => {
+//   toast.error(message);
+// };
 
 export default CustomToast;

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import InputCheckbox from "../common/InputCheckbox";
 import ModalFormCertificate from "../components/Modals/ModalFormCertificate";
+import { useStore } from "zustand";
+import useWalletStore from "../store/useWalletStore";
 
 const exampleProducts = [
   {
@@ -94,6 +96,8 @@ const exampleProducts = [
 ];
 
 export function ProductListPage() {
+  const { getDisplayName } = useStore(useWalletStore);
+
   const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -142,7 +146,6 @@ export function ProductListPage() {
       startPage = Math.max(1, endPage - maxVisibleButtons + 1);
     }
 
-    // Botón "Anterior"
     buttons.push(
       <button
         key="prev"
@@ -165,7 +168,6 @@ export function ProductListPage() {
       </button>
     );
 
-    // Botones numéricos
     for (let page = startPage; page <= endPage; page++) {
       buttons.push(
         <button
@@ -180,7 +182,6 @@ export function ProductListPage() {
       );
     }
 
-    // Botón "Siguiente"
     buttons.push(
       <button
         key="next"
@@ -263,7 +264,7 @@ export function ProductListPage() {
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center py-2 mb-8 sm:mb-20 gap-4">
           <h5 className="font-normal text-lg">Certificados</h5>
           <div className="flex justify-end items-center gap-4">
-            <span className="font-normal text-lg">Constanza</span>
+            <span className="font-normal text-lg">{getDisplayName()}</span>
             <div className="rounded-full w-10 h-10 bg-slate-500"></div>
           </div>
         </header>

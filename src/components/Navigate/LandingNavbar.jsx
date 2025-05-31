@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/RaizLogo.svg";
 import { useStore } from "zustand";
-import useWalletStore from "../../store/useAuthStore";
+import useWalletStore from "../../store/useWalletStore";
 
 const LandingNavbar = ({ onWalletClick, onQRScannerOpen }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

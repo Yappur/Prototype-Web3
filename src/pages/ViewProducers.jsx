@@ -1,5 +1,5 @@
 import FormCertificate from "../components/FormCertificate";
-import useWalletStore from "../store/useAuthStore";
+import useWalletStore from "../store/useWalletStore";
 
 const ViewProducers = () => {
   const { getDisplayName } = useWalletStore();

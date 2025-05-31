@@ -1,13 +1,15 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { Sidebar } from "./SideBar";
 import { useStore } from "zustand";
-import useWalletStore from "../../store/useAuthStore";
+import useWalletStore from "../../store/useWalletStore";
+import useAppStore from "../../store/useAppStore";
 
 const LayoutCompleteProducers = () => {
-  const { isConnected, setError } = useStore(useWalletStore);
+  const { isConnected } = useStore(useWalletStore);
+  const { setToast } = useStore(useAppStore);
 
   if (!isConnected) {
-    setError("Por favor, conecte su wallet de MetaMask para acceder");
+    setToast("Por favor, conecte su wallet de MetaMask para acceder", "error");
     return <Navigate to={"/"} />;
   }
 
