@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { BrowserMultiFormatReader } from "@zxing/library";
-import flashlight from "../../assets/icons/flashlight.svg";
 
 const QRScannerModal = ({ isOpen, onClose, onScan }) => {
   const [error, setError] = useState(null);
@@ -266,32 +265,34 @@ const QRScannerModal = ({ isOpen, onClose, onScan }) => {
         {/* Controles inferiores - Flash centrado */}
         {isScanning && !error && flashSupported && (
           <div className="absolute bottom-8 left-0 right-0 flex justify-center">
-            <button
-              onClick={toggleFlash}
-              className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-200 ${
-                flashOn
-                  ? "bg-yellow-500/80 shadow-lg shadow-yellow-500/50"
-                  : "bg-white/20 backdrop-blur-sm"
-              }`}
-            >
+            <button onClick={toggleFlash}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
+                width="60"
+                height="60"
+                viewBox="0 0 60 60"
                 fill="none"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
               >
-                {flashOn ? (
-                  // Icono de flash encendido
-                  <path d="m13 2-3 6h4l-3 6 3-6h-4l3-6z" fill="white" />
-                ) : (
-                  // Icono de flash apagado
-                  <path d="M13 2v6h4l-3 6-3-6h4V2z" />
-                )}
+                <rect
+                  width="60"
+                  height="60"
+                  rx="30"
+                  fill="#333333"
+                  fillOpacity="0.35"
+                />
+                <rect
+                  width="60"
+                  height="60"
+                  rx="30"
+                  fill="black"
+                  fillOpacity="0.3"
+                  style={{ mixBlendMode: "plus-darker" }}
+                />
+                <path
+                  d="M21 32.75V33H28.974C28.0903 36.0193 26.7501 38.8858 25 41.5V42C26.32 42 28.184 41.456 30.089 40.727C35.133 38.796 38.001 33.651 38.004 28.25L38 28H32.414C33.4627 25.1842 33.9998 22.2037 34 19.199V19H25V19.08C24.9999 23.9252 23.6118 28.669 21 32.75Z"
+                  fill="white"
+                  stroke="white"
+                />
               </svg>
             </button>
           </div>
@@ -390,39 +391,6 @@ const QRScannerModal = ({ isOpen, onClose, onScan }) => {
             >
               {isScanning ? "Detener" : "Iniciar"}
             </button>
-
-            {flashSupported && isScanning && (
-              <button
-                onClick={toggleFlash}
-                className={`px-4 py-2 rounded font-medium transition-colors flex items-center gap-2 ${
-                  flashOn
-                    ? "bg-yellow-500 text-white hover:bg-yellow-600"
-                    : "bg-gray-500 text-white hover:bg-gray-600"
-                }`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  {flashOn ? (
-                    <path
-                      d="m13 2-3 6h4l-3 6 3-6h-4l3-6z"
-                      fill="currentColor"
-                    />
-                  ) : (
-                    <path d="M13 2v6h4l-3 6-3-6h4V2z" />
-                  )}
-                </svg>
-                {flashOn ? "Flash ON" : "Flash OFF"}
-              </button>
-            )}
 
             {error && (
               <button
