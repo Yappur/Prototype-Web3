@@ -10,12 +10,8 @@ import { useStore } from "zustand";
 import useWalletStore from "../store/useAuthStore.js";
 
 export default function Home() {
-  const {
-    isConnected,
-    connectWallet,
-    disconnectWallet,
-    shortAddress,
-  } = useStore(useWalletStore);
+  const { isConnected, connectWallet, disconnectWallet, shortAddress } =
+    useStore(useWalletStore);
 
   const [showError, setShowError] = useState(true);
   const [showQRScanner, setShowQRScanner] = useState(false);

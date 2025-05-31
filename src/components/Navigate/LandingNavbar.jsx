@@ -7,12 +7,12 @@ import useWalletStore from "../../store/useAuthStore";
 const LandingNavbar = ({ onWalletClick, onQRScannerOpen }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const {isLoading, address, isConnected } = useStore(useWalletStore);
+  const { isLoading, address, isConnected } = useStore(useWalletStore);
 
   const getWalletButtonText = () => {
     if (isLoading) return "Conectando...";
     if (isConnected) return address?.meta?.name || "Wallet Conectada";
-    return "Conectar Wallet";
+    return "Acceso Productores";
   };
 
   const toggleMenu = () => {
@@ -44,10 +44,10 @@ const LandingNavbar = ({ onWalletClick, onQRScannerOpen }) => {
             <button
               onClick={onWalletClick}
               disabled={isLoading}
-              className={`px-7 py-2 text-md font-medium border border-black transition-colors cursor-pointer relative ${
+              className={`px-7 py-2 text-md font-medium border border-[#202715] transition-colors cursor-pointer relative ${
                 isConnected
                   ? "bg-green-100 text-green-800 border-green-600 hover:bg-green-200"
-                  : "text-black bg-transparent hover:bg-black hover:text-white"
+                  : "bg-[#202715] hover:bg-[#14180e] transition-colors text-white "
               } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {isConnected && (
@@ -55,12 +55,6 @@ const LandingNavbar = ({ onWalletClick, onQRScannerOpen }) => {
               )}
               {getWalletButtonText()}
             </button>
-            <Link
-              to="/Producers"
-              className="px-7 py-2 text-md text-white font-medium bg-[#202715] hover:bg-[#14180e] transition-colors cursor-pointer"
-            >
-              Acceso Productores
-            </Link>
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -110,10 +104,10 @@ const LandingNavbar = ({ onWalletClick, onQRScannerOpen }) => {
                 closeMenu();
               }}
               disabled={isLoading}
-              className={`w-full px-7 py-3 text-md font-medium border border-black transition-colors cursor-pointer relative ${
+              className={`w-full px-7 py-3 text-md font-medium border border-[#202715] transition-colors cursor-pointer relative ${
                 isConnected
                   ? "bg-green-100 text-green-800 border-green-600 hover:bg-green-200"
-                  : "text-black bg-transparent hover:bg-black hover:text-white"
+                  : "bg-[#202715] hover:bg-[#14180e] transition-colors text-white"
               } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {isConnected && (
@@ -121,14 +115,6 @@ const LandingNavbar = ({ onWalletClick, onQRScannerOpen }) => {
               )}
               {getWalletButtonText()}
             </button>
-
-            <Link
-              to="/Producers"
-              onClick={closeMenu}
-              className="block w-full px-7 py-3 text-md text-white font-medium bg-[#202715] hover:bg-[#14180e] transition-colors cursor-pointer text-center"
-            >
-              Acceso Productores
-            </Link>
           </div>
         </div>
 
