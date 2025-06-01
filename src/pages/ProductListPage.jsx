@@ -1,10 +1,122 @@
 import { useEffect, useState } from "react";
-import InputCheckbox from "../common/InputCheckbox";
 import ModalFormCertificate from "../components/Modals/ModalFormCertificate";
 import { useStore } from "zustand";
 import useWalletStore from "../store/useWalletStore";
 import ModalCertificate from "../components/Modals/ModalCertificate";
 import usePDFExport from "../hooks/usePDFExport";
+
+const exampleProducts = [
+  {
+    name: "Camisa Origen",
+    source: "Hilando al Sur",
+    type: "Textil",
+    date: "06-07-2027",
+    location: "Córdoba, Argentina",
+    certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
+  },
+  {
+    name: "Camisa Origen 2",
+    source: "Hilando al Sur",
+    type: "Textil",
+    date: "06-07-2027",
+    location: "Córdoba, Argentina",
+    certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
+  },
+  {
+    name: "Camisa Origen 3",
+    source: "Hilando al Sur",
+    type: "Textil",
+    date: "06-07-2027",
+    location: "Córdoba, Argentina",
+    certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
+  },
+  {
+    name: "Camisa Origen 4",
+    source: "Hilando al Sur",
+    type: "Textil",
+    date: "06-07-2027",
+    location: "Córdoba, Argentina",
+    certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
+  },
+  {
+    name: "Camisa Origen 5",
+    source: "Hilando al Sur",
+    type: "Textil",
+    date: "06-07-2027",
+    location: "Córdoba, Argentina",
+    certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
+  },
+  {
+    name: "Camisa Origen 6",
+    source: "Hilando al Sur",
+    type: "Textil",
+    date: "06-07-2027",
+    location: "Córdoba, Argentina",
+    certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
+  },
+  {
+    name: "Camisa Origen 7",
+    source: "Hilando al Sur",
+    type: "Textil",
+    date: "06-07-2027",
+    location: "Córdoba, Argentina",
+    certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
+  },
+  {
+    name: "Camisa Origen 8",
+    source: "Hilando al Sur",
+    type: "Textil",
+    date: "06-07-2027",
+    location: "Córdoba, Argentina",
+    certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
+  },
+  {
+    name: "Camisa Origen 9",
+    source: "Hilando al Sur",
+    type: "Textil",
+    date: "06-07-2027",
+    location: "Córdoba, Argentina",
+    certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
+  },
+  {
+    name: "Camisa Origen 10",
+    source: "Hilando al Sur",
+    type: "Textil",
+    date: "06-07-2027",
+    location: "Córdoba, Argentina",
+    certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
+  },
+  {
+    name: "Camisa Origen 11",
+    source: "Hilando al Sur",
+    type: "Textil",
+    date: "06-07-2027",
+    location: "Córdoba, Argentina",
+    certificationLink: "https://raiz.veri.link/tu-certificado",
+    description:
+      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
+  },
+];
 
 export function ProductListPage() {
   const { getDisplayName, handleCertificationById, handleCertificationsByAddress } =
@@ -50,6 +162,15 @@ export function ProductListPage() {
 
   const handlePageChange = (page) => {
     setPagination((pagination) => ({ ...pagination, page }));
+  };
+
+  const handleDownloadCertificate = async (product) => {
+    await exportToPDF([product]);
+  };
+
+  const handleViewCertificate = (product) => {
+    setCertificateOpened(product);
+    setIsCertificateModalOpen(true);
   };
 
   const renderPaginationButtons = () => {
@@ -142,7 +263,6 @@ export function ProductListPage() {
               <h3 className="font-medium text-lg text-gray-900">
                 {product.name}
               </h3>
-              <InputCheckbox id={product.name} onCheck={onCheckProduct} />
             </div>
 
             <div className="grid grid-cols-1 gap-2 text-sm">
@@ -162,16 +282,50 @@ export function ProductListPage() {
                 <span className="text-gray-500">Ubicación:</span>
                 <span className="font-medium">{product.location}</span>
               </div>
-              <div className="mt-2 pt-2 border-t border-gray-100">
-                <span className="text-gray-500 text-xs">Certificado:</span>
-                <a
-                  href={product.certificationLink}
-                  className="block text-orange-600 hover:text-orange-800 text-xs truncate mt-1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {product.certificationLink}
-                </a>
+
+              {/* Acciones para móvil */}
+              <div className="mt-3 pt-3 border-t border-gray-100">
+                <div className="flex justify-center gap-4">
+                  <button
+                    onClick={() => handleViewCertificate(product)}
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md transition-colors"
+                    title="Ver certificado"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Ver
+                  </button>
+
+                  <button
+                    onClick={() => handleDownloadCertificate(product)}
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-green-600 hover:text-green-800 hover:bg-green-50 rounded-md transition-colors"
+                    title="Descargar certificado"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Descargar
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -190,21 +344,7 @@ export function ProductListPage() {
       rowsSelected.includes(product.name)
     );
 
-    for (const product of selectedProducts) {
-      await exportToPDF(product);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
-  };
-
-  const onCheckProduct = (id, isChecked) => {
-    if (id === "selectAll") {
-      if (isChecked) setRowsSelected(products.map((product) => product.name));
-      if (!isChecked) setRowsSelected([]);
-    } else {
-      if (isChecked) setRowsSelected((rows) => [...rows, id]);
-      if (!isChecked)
-        setRowsSelected((rows) => rows.filter((row) => row !== id));
-    }
+    await exportToPDF(selectedProducts);
   };
 
   return (
@@ -215,7 +355,6 @@ export function ProductListPage() {
           <h5 className="font-normal text-lg">Certificados</h5>
           <div className="flex justify-end items-center gap-4">
             <span className="font-normal text-lg">{getDisplayName()}</span>
-            <div className="rounded-full w-10 h-10 bg-slate-500"></div>
           </div>
         </header>
 
@@ -224,13 +363,6 @@ export function ProductListPage() {
             Productos Certificados
           </h2>
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <button
-              onClick={handleExportSelected}
-              disabled={rowsSelected.length === 0 || isExporting}
-              className="py-2 px-4 text-center border border-black text-sm cursor-pointer hover:bg-gray-50 transition-colors disabled:opacity-50"
-            >
-              {isExporting ? "Exportando..." : "Exportar Certificado"}
-            </button>
             <button
               onClick={() => setIsFormModalOpen(true)}
               className="py-2 px-4 text-center border border-black bg-black text-white text-sm cursor-pointer hover:bg-gray-800 transition-colors"
@@ -271,8 +403,8 @@ export function ProductListPage() {
                     <th className="text-left py-3 px-4 font-medium text-gray-900">
                       Ubicación
                     </th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">
-                      Link del Certificado
+                    <th className="text-center py-3 px-4 font-medium text-gray-900">
+                      Acciones
                     </th>
                   </tr>
                 </thead>
@@ -286,6 +418,13 @@ export function ProductListPage() {
                           : "bg-white"
                       }`}
                     >
+                      <td className="py-3 px-4">
+                        <InputCheckbox
+                          id={product.name}
+                          onCheck={onCheckProduct}
+                          isChecked={rowsSelected.includes(product.name)}
+                        />
+                      </td>
                       <td
                         onClick={() => {
                           setCertificateOpened(product);
@@ -308,14 +447,48 @@ export function ProductListPage() {
                         {product.location}
                       </td>
                       <td className="py-3 px-4">
-                        <a
-                          href={product.certificationLink}
-                          className="text-orange-600 hover:text-orange-800 truncate block max-w-[200px]"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {product.certificationLink}
-                        </a>
+                        <div className="flex justify-center gap-2">
+                          {/* Botón Ver */}
+                          <button
+                            onClick={() => handleViewCertificate(product)}
+                            className="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md transition-colors"
+                            title="Ver certificado"
+                          >
+                            <svg
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                          </button>
+
+                          {/* Botón Descargar */}
+                          <button
+                            onClick={() => handleDownloadCertificate(product)}
+                            className="p-2 text-green-600 hover:text-green-800 hover:bg-green-50 rounded-md transition-colors"
+                            title="Descargar certificado"
+                            disabled={isExporting}
+                          >
+                            <svg
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

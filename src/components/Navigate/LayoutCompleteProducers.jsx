@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { Sidebar } from "./SideBar";
 import { useStore } from "zustand";
@@ -8,11 +9,18 @@ const LayoutCompleteProducers = () => {
   const { isConnected } = useStore(useWalletStore);
   const { setToast } = useStore(useAppStore);
 
+  useEffect(() => {
+    if (!isConnected) {
+      setToast(
+        "Por favor, conecte su wallet de MetaMask para acceder",
+        "error"
+      );
+    }
+  }, [isConnected, setToast]);
+
   if (!isConnected) {
-    setToast("Por favor, conecte su wallet de MetaMask para acceder", "error");
     return <Navigate to={"/"} />;
   }
-
   return (
     <div className="min-h-screen">
       <Sidebar />

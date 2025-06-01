@@ -307,13 +307,6 @@ const QRScannerModal = ({ isOpen, onClose, onScan }) => {
       <div className="fixed inset-0 z-40 bg-black/50"></div>
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 relative">
-          <button
-            onClick={handleClose}
-            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl font-bold z-10"
-          >
-            X
-          </button>
-
           <div className="text-center mb-4">
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
               Escanear Producto
@@ -381,15 +374,15 @@ const QRScannerModal = ({ isOpen, onClose, onScan }) => {
             <button
               onClick={toggleScanning}
               disabled={!!error}
-              className={`px-4 py-2 rounded font-medium transition-colors ${
+              className={`px-14 py-2 font-medium transition-colors ${
                 error
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : isScanning
-                  ? "bg-red-500 text-white hover:bg-red-600"
-                  : "bg-green-500 text-white hover:bg-green-600"
+                  ? "bg-black text-white border border-black hover:bg-transparent hover:text-black"
+                  : "bg-black text-white border border-black hover:bg-transparent hover:text-black"
               }`}
             >
-              {isScanning ? "Detener" : "Iniciar"}
+              {isScanning ? "Detener" : "Comenzar"}
             </button>
 
             {error && (
@@ -398,7 +391,7 @@ const QRScannerModal = ({ isOpen, onClose, onScan }) => {
                   setError(null);
                   startScanner();
                 }}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                className="px-14 py-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors"
               >
                 Reintentar
               </button>
@@ -406,7 +399,7 @@ const QRScannerModal = ({ isOpen, onClose, onScan }) => {
 
             <button
               onClick={handleClose}
-              className="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition-colors"
+              className="px-14 py-2 border border-black text-gray-700 hover:bg-gray-50 transition-colors"
             >
               Cancelar
             </button>
