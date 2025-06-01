@@ -6,11 +6,7 @@ import ModalCertificate from "../components/Modals/ModalCertificate";
 import usePDFExport from "../hooks/usePDFExport";
 
 export function ProductListPage() {
-  const {
-    getDisplayName,
-    handleCertificationById,
-    handleCertificationsByAddress,
-  } = useStore(useWalletStore);
+  const { getDisplayName, handleCertificationById } = useStore(useWalletStore);
   const { exportToPDF, isExporting } = usePDFExport();
 
   const [products, setProducts] = useState([]);
@@ -35,20 +31,6 @@ export function ProductListPage() {
 
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
-
-  useEffect(() => {
-    handleCertificationsByAddress().then((data) => {
-      console.log(data);
-      setProducts(data);
-    });
-  }, [handleCertificationsByAddress]);
-
-  useEffect(() => {
-    const minRange = pagination.page * 10 - 10;
-    const maxRange = pagination.page * 10;
-    const paginatedProducts = products.slice(minRange, maxRange);
-    setProducts(paginatedProducts);
-  }, [pagination, products]);
 
   const handlePageChange = (page) => {
     setPagination((pagination) => ({ ...pagination, page }));
