@@ -6,128 +6,16 @@ import useWalletStore from "../store/useWalletStore";
 import ModalCertificate from "../components/Modals/ModalCertificate";
 import usePDFExport from "../hooks/usePDFExport";
 
-const exampleProducts = [
-  {
-    name: "Camisa Origen",
-    source: "Hilando al Sur",
-    type: "Textil",
-    date: "06-07-2027",
-    location: "Córdoba, Argentina",
-    certificationLink: "https://raiz.veri.link/tu-certificado",
-    description:
-      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
-  },
-  {
-    name: "Camisa Origen 2",
-    source: "Hilando al Sur",
-    type: "Textil",
-    date: "06-07-2027",
-    location: "Córdoba, Argentina",
-    certificationLink: "https://raiz.veri.link/tu-certificado",
-    description:
-      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
-  },
-  {
-    name: "Camisa Origen 3",
-    source: "Hilando al Sur",
-    type: "Textil",
-    date: "06-07-2027",
-    location: "Córdoba, Argentina",
-    certificationLink: "https://raiz.veri.link/tu-certificado",
-    description:
-      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
-  },
-  {
-    name: "Camisa Origen 4",
-    source: "Hilando al Sur",
-    type: "Textil",
-    date: "06-07-2027",
-    location: "Córdoba, Argentina",
-    certificationLink: "https://raiz.veri.link/tu-certificado",
-    description:
-      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
-  },
-  {
-    name: "Camisa Origen 5",
-    source: "Hilando al Sur",
-    type: "Textil",
-    date: "06-07-2027",
-    location: "Córdoba, Argentina",
-    certificationLink: "https://raiz.veri.link/tu-certificado",
-    description:
-      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
-  },
-  {
-    name: "Camisa Origen 6",
-    source: "Hilando al Sur",
-    type: "Textil",
-    date: "06-07-2027",
-    location: "Córdoba, Argentina",
-    certificationLink: "https://raiz.veri.link/tu-certificado",
-    description:
-      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
-  },
-  {
-    name: "Camisa Origen 7",
-    source: "Hilando al Sur",
-    type: "Textil",
-    date: "06-07-2027",
-    location: "Córdoba, Argentina",
-    certificationLink: "https://raiz.veri.link/tu-certificado",
-    description:
-      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
-  },
-  {
-    name: "Camisa Origen 8",
-    source: "Hilando al Sur",
-    type: "Textil",
-    date: "06-07-2027",
-    location: "Córdoba, Argentina",
-    certificationLink: "https://raiz.veri.link/tu-certificado",
-    description:
-      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
-  },
-  {
-    name: "Camisa Origen 9",
-    source: "Hilando al Sur",
-    type: "Textil",
-    date: "06-07-2027",
-    location: "Córdoba, Argentina",
-    certificationLink: "https://raiz.veri.link/tu-certificado",
-    description:
-      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
-  },
-  {
-    name: "Camisa Origen 10",
-    source: "Hilando al Sur",
-    type: "Textil",
-    date: "06-07-2027",
-    location: "Córdoba, Argentina",
-    certificationLink: "https://raiz.veri.link/tu-certificado",
-    description:
-      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
-  },
-  {
-    name: "Camisa Origen 11",
-    source: "Hilando al Sur",
-    type: "Textil",
-    date: "06-07-2027",
-    location: "Córdoba, Argentina",
-    certificationLink: "https://raiz.veri.link/tu-certificado",
-    description:
-      "Camisa confeccionada íntegramente con algodón orgánico certificado, proveniente de cultivos sostenibles que no utilizan pesticidas, fertilizantes sintéticos ni semillas genéticamente modificadas. El proceso de producción respeta tanto los ciclos naturales del suelo como a las personas involucradas en la cadena de valor. Cada prenda está hecha bajo condiciones laborales justas, promoviendo una economía circular y de comercio ético.",
-  },
-];
-
 export function ProductListPage() {
-  const { getDisplayName } = useStore(useWalletStore);
+  const { getDisplayName, handleCertificationById, handleCertificationsByAddress } =
+    useStore(useWalletStore);
   const { exportToPDF, isExporting } = usePDFExport();
 
   const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState({
     page: 1,
-    totalPages: Math.ceil(exampleProducts.length / 10),
-    total: exampleProducts.length,
+    totalPages: Math.ceil(products.length / 10),
+    total: products.length,
   });
   const [rowsSelected, setRowsSelected] = useState([]);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
@@ -147,11 +35,18 @@ export function ProductListPage() {
   }, []);
 
   useEffect(() => {
+    handleCertificationsByAddress().then((data) => {
+      console.log(data)
+      setProducts(data);
+    });
+  }, [handleCertificationsByAddress]);
+
+  useEffect(() => {
     const minRange = pagination.page * 10 - 10;
     const maxRange = pagination.page * 10;
-    const paginatedProducts = exampleProducts.slice(minRange, maxRange);
+    const paginatedProducts = products.slice(minRange, maxRange);
     setProducts(paginatedProducts);
-  }, [pagination]);
+  }, [pagination, products]);
 
   const handlePageChange = (page) => {
     setPagination((pagination) => ({ ...pagination, page }));
@@ -253,15 +148,15 @@ export function ProductListPage() {
             <div className="grid grid-cols-1 gap-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-500">Emisor:</span>
-                <span className="font-medium">{product.source}</span>
+                <span className="font-medium">{product.company}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Tipo:</span>
-                <span className="font-medium">{product.type}</span>
+                <span className="font-medium">{product.productType}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Fecha:</span>
-                <span className="font-medium">{product.date}</span>
+                <span className="font-medium">{product.productionDate}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Ubicación:</span>
@@ -291,7 +186,7 @@ export function ProductListPage() {
       return;
     }
 
-    const selectedProducts = exampleProducts.filter((product) =>
+    const selectedProducts = products.filter((product) =>
       rowsSelected.includes(product.name)
     );
 
@@ -342,6 +237,12 @@ export function ProductListPage() {
             >
               Nuevo Certificado
             </button>
+            <button
+              onClick={() => handleCertificationById(2)}
+              className="py-2 px-4 text-center border border-black bg-black text-white text-sm cursor-pointer hover:bg-gray-800 transition-colors"
+            >
+              Contrato
+            </button>
           </div>
         </div>
 
@@ -355,13 +256,6 @@ export function ProductListPage() {
               <table className="w-full min-w-[800px]">
                 <thead className="bg-gray-50">
                   <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 px-4 font-medium text-gray-900">
-                      <InputCheckbox
-                        id="selectAll"
-                        onCheck={onCheckProduct}
-                        isChecked={rowsSelected.length === 10}
-                      />
-                    </th>
                     <th className="text-left py-3 px-4 font-medium text-gray-900">
                       Nombre
                     </th>
@@ -392,13 +286,6 @@ export function ProductListPage() {
                           : "bg-white"
                       }`}
                     >
-                      <td className="py-3 px-4">
-                        <InputCheckbox
-                          id={product.name}
-                          onCheck={onCheckProduct}
-                          isChecked={rowsSelected.includes(product.name)}
-                        />
-                      </td>
                       <td
                         onClick={() => {
                           setCertificateOpened(product);
